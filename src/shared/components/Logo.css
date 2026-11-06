@@ -1,0 +1,60 @@
+.logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  font-family: var(--font-serif);
+  color: var(--vino);
+  --logo-size: 1.6rem;
+}
+.logo--sm {
+  --logo-size: 1.35rem;
+}
+.logo--md {
+  --logo-size: 1.7rem;
+}
+.logo--lg {
+  --logo-size: clamp(3.4rem, 13vw, 8.5rem);
+}
+.logo--crema {
+  color: var(--crema);
+}
+.logo--crema .logo__mkt {
+  color: var(--rosa-soft);
+}
+.logo__word {
+  font-size: var(--logo-size);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  font-variation-settings: 'opsz' 96;
+  display: inline-flex;
+}
+.logo__char {
+  display: inline-block;
+}
+.logo__rule {
+  display: block;
+  width: 92%;
+  height: max(1px, calc(var(--logo-size) * 0.03));
+  margin-top: calc(var(--logo-size) * 0.12);
+  background: currentColor;
+  opacity: 0.8;
+  transform-origin: center;
+}
+.logo__mkt {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: calc(var(--logo-size) * 0.28);
+  letter-spacing: 0.32em;
+  margin-top: calc(var(--logo-size) * 0.12);
+  padding-left: 0.32em;
+  color: var(--tinta);
+}
+.logo__mkt b {
+  color: var(--vino);
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.logo--crema .logo__mkt b {
+  color: var(--rosa);
+}

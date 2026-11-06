@@ -1,3 +1,58 @@
+# studioag mkt. — Landing page
+
+Landing de **@studioag.mkt** (estrategia, contenido y diseño para marcas). React + Vite, animaciones con GSAP ScrollTrigger y smooth scroll con Lenis.
+
+🌐 **Sitio:** https://aleejom.github.io/StudioAgWEB/
+
+## Desarrollo
+
+```bash
+npm ci
+npm run dev      # http://localhost:5173
+npm run lint
+npm run build    # genera dist/
+```
+
+Requiere Node 22 (ver `.nvmrc`).
+
+## Estructura del sitio
+
+```txt
+src/
+  app/App.jsx                      # raíz de la app
+  modules/home/
+    pages/HomePage.jsx             # orden de las secciones
+    components/                    # Hero, Manifesto, ServicesFolder, Process, TopPosts, Portfolio, ...
+    data/content.js                # textos, servicios, posts destacados e imágenes
+    styles/home.css
+  shared/
+    components/Logo.jsx            # wordmark "studioag mkt."
+    constants/brand.js             # handle y links de Instagram
+    hooks/useSmoothScroll.js       # Lenis + GSAP
+    styles/tokens.css              # paleta y tipografías de la marca
+```
+
+Para cambiar textos, servicios o métricas de los posts, editá `src/modules/home/data/content.js`. Las imágenes están en `src/assets/images/` (webp).
+
+Respeta `prefers-reduced-motion`: sin smooth scroll, sin pins ni animaciones de scroll.
+
+## Deploy (GitHub Pages)
+
+`.github/workflows/deploy.yml`:
+
+- **Pull requests a `main`**: corre lint + build como check (no publica).
+- **Push/merge a `main`** (o ejecución manual): build y deploy a GitHub Pages.
+- El `base` de Vite sale de `actions/configure-pages`, así que funciona tanto en `/StudioAgWEB/` como con un dominio propio (sin cambiar código).
+- Genera `404.html` como fallback de SPA.
+
+Configuración única en el repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+### Dominio propio (opcional)
+
+Para que la URL no muestre el usuario de GitHub: comprá un dominio, agregá un registro `CNAME` (subdominio) apuntando a `aleejom.github.io` y cargalo en **Settings → Pages → Custom domain**. El workflow toma el nuevo base path solo. Después actualizá `og:image` y `canonical` en `index.html`.
+
+---
+
 # Template React + Vite
 
 Template base para crear proyectos frontend con **React + Vite**, manteniendo una estructura clara, reutilizable y fácil de entender por el equipo.

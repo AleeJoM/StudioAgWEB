@@ -2,7 +2,7 @@
 
 Landing de **@studioag.mkt** (estrategia, contenido y diseño para marcas). React + Vite, animaciones con GSAP ScrollTrigger y smooth scroll con Lenis.
 
-🌐 **Sitio:** https://aleejom.github.io/StudioAgWEB/
+🌐 **Sitio:** https://studioag-mkt.pages.dev/
 
 ## Desarrollo
 
@@ -36,20 +36,15 @@ Para cambiar textos, servicios o métricas de los posts, editá `src/modules/hom
 
 Respeta `prefers-reduced-motion`: sin smooth scroll, sin pins ni animaciones de scroll.
 
-## Deploy (GitHub Pages)
+## Deploy (Cloudflare Pages)
 
 `.github/workflows/deploy.yml`:
 
 - **Pull requests a `main`**: corre lint + build como check (no publica).
-- **Push/merge a `main`** (o ejecución manual): build y deploy a GitHub Pages.
-- El `base` de Vite sale de `actions/configure-pages`, así que funciona tanto en `/StudioAgWEB/` como con un dominio propio (sin cambiar código).
-- Genera `404.html` como fallback de SPA.
+- **Push/merge a `main`** (o ejecución manual): lint, build y deploy a Cloudflare Pages (proyecto `studioag-mkt`, subida directa con wrangler).
+- El sitio vive en la raíz (`/`), sin base path.
 
-Configuración única en el repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-
-### Dominio propio (opcional)
-
-Para que la URL no muestre el usuario de GitHub: comprá un dominio, agregá un registro `CNAME` (subdominio) apuntando a `aleejom.github.io` y cargalo en **Settings → Pages → Custom domain**. El workflow toma el nuevo base path solo. Después actualizá `og:image` y `canonical` en `index.html`.
+Secrets requeridos en el repo (**Settings → Secrets and variables → Actions**): `CLOUDFLARE_API_TOKEN` (permiso Account → Cloudflare Pages → Edit) y `CLOUDFLARE_ACCOUNT_ID`.
 
 ---
 

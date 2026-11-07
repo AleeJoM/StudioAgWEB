@@ -1,4 +1,4 @@
-name: CI / Deploy a GitHub Pages
+name: CI / Deploy a Cloudflare Pages
 
 on:
   push:
@@ -8,19 +8,18 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Mínimo privilegio por defecto; cada job pide solo lo que usa.
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
-    name: Lint y build
+  build-and-deploy:
+    name: Lint, build y deploy
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    # En PRs se cancela la corrida vieja si llega un push nuevo.
-    concurrency:
-      group: build-${{ github.event.pull_request.number || github.ref }}
-      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v5
 
@@ -35,43 +34,23 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Configurar Pages (base path)
-        id: pages
-        if: github.event_name != 'pull_request'
-        uses: actions/configure-pages@v5
-
       - name: Build
         run: npm run build
-        env:
-          # "/StudioAgWEB/" en github.io; "/" si se configura un dominio propio.
-          BASE_PATH: ${{ steps.pages.outputs.base_path || format('/{0}', github.event.repository.name) }}/
 
-      - name: Fallback 404 para SPA
-        run: cp dist/index.html dist/404.html
-
-      - name: Subir artefacto de Pages
+      # Idempotente: si el proyecto ya existe, el error se ignora.
+      - name: Crear proyecto en Cloudflare Pages (si falta)
         if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v4
+        continue-on-error: true
+        uses: cloudflare/wrangler-action@v3
         with:
-          path: dist
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create studioag-mkt --production-branch=main
 
-  deploy:
-    name: Deploy
-    needs: build
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      pages: write
-      id-token: write
-    # Nunca cancelar un deploy en curso: se encolan y gana el último.
-    concurrency:
-      group: pages
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Publicar en GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publicar en Cloudflare Pages
+        if: github.event_name != 'pull_request'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=studioag-mkt --branch=main

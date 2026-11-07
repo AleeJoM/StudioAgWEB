@@ -22,7 +22,7 @@ src/
   app/App.jsx                      # raíz de la app
   modules/home/
     pages/HomePage.jsx             # orden de las secciones
-    components/                    # Hero, ServicesFolder, TopPosts, Reviews, Portfolio, FinalCta
+    components/                    # Preloader, Hero, Journey (escenas pineadas), TopPosts, Reviews, Portfolio, FinalCta
     data/content.js                # textos, servicios, posts destacados e imágenes
     styles/home.css
   shared/

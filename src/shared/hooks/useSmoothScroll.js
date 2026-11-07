@@ -48,3 +48,9 @@ export function setScrollLocked(locked) {
   if (locked) lenisInstance.stop()
   else lenisInstance.start()
 }
+
+/** Scroll suave a una posición absoluta en px. */
+export function scrollToY(y) {
+  if (lenisInstance) lenisInstance.scrollTo(y, { duration: 1.4 })
+  else window.scrollTo({ top: y, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+}

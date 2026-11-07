@@ -75,18 +75,21 @@ export const TOP_POST = {
   ],
 }
 
-/* Mensajes reales de clientes por WhatsApp (sin nombres). Solo se corrigió la ortografía. */
+/* Capturas reales de mensajes de clientes por WhatsApp (recortadas, sin nombres ni números). */
 export const REVIEWS = [
   {
-    text: '¡Hola! He ido avanzando poco a poco con lo del calendario y he visto resultados. ¡Mi página de Insta tiene más vistas!',
+    key: 'resultados',
+    alt: 'Mensaje de un cliente por WhatsApp: «hola! e ido avanzando poco a poco con lo del calendario y e visto resultados! mi pagina de insta tiene mas vistas»',
     reaction: '📈',
   },
   {
-    text: '¡Mil gracias! De verdad, gracias por todo el apoyo. Justamente seguiré con el camino del aprendizaje y usando herramientas como tu calendario, ¡que está buenísimo! ❤️',
+    key: 'gracias',
+    alt: 'Mensaje de un cliente por WhatsApp: «Mil gracias! de verdad gracias por todo el apoyo y siii justamente seguire con el camino del aprendizaje y usando herramientas como tu calendario que esta buenisimo!»',
     reaction: '❤️',
   },
   {
-    text: 'Está todo hermoso.',
+    key: 'hermoso',
+    alt: 'Mensaje de un cliente por WhatsApp: «Dale mañana hablo con mi amigo y vemos pero está todo hermoso»',
     reaction: '🤎',
   },
 ]

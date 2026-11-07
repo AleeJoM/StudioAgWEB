@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { BRAND, LINKS } from '../../../shared/constants/brand.js'
 import { prefersReducedMotion, scrollToTarget } from '../../../shared/hooks/useSmoothScroll.js'
@@ -14,21 +14,12 @@ const CARDS = [
 
 const STICKERS = ['🚀', '💡', '🤎', '✨', '💌']
 
-const FONT_WAIT_MS = 1200
-
-/** Espera a las fuentes (con tope) para que la intro no se dispare sobre texto que luego se reacomoda. */
-const fontsReady = () =>
-  Promise.race([
-    document.fonts?.ready ?? Promise.resolve(),
-    new Promise((resolve) => setTimeout(resolve, FONT_WAIT_MS)),
-  ])
-
-export default function Hero() {
+export default function Hero({ ready }) {
   const root = useRef(null)
+  const intro = useRef(null)
 
   useLayoutEffect(() => {
     if (prefersReducedMotion()) return undefined
-    let cancelled = false
     const ctx = gsap.context(() => {
       // Se arma pausada: los from() fijan el estado inicial antes del primer paint (sin flash ni segundo arranque).
       const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } })
@@ -39,9 +30,7 @@ export default function Hero() {
         .from('.hero-card', { y: 120, opacity: 0, rotate: (i) => [-18, 14, -6][i], duration: 1.2, stagger: 0.1 }, '-=1')
         .from('.hero-sticker', { scale: 0, rotate: -60, duration: 0.7, stagger: 0.06, ease: 'back.out(2.4)' }, '-=0.8')
 
-      fontsReady().then(() => {
-        if (!cancelled) tl.play()
-      })
+      intro.current = tl
 
       // Parallax con el mouse (solo desktop)
       if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
@@ -65,11 +54,13 @@ export default function Hero() {
       }
       return undefined
     }, root)
-    return () => {
-      cancelled = true
-      ctx.revert()
-    }
+    return () => ctx.revert()
   }, [])
+
+  // La intro arranca cuando el preloader levanta la cortina (el hero ya está oculto debajo).
+  useEffect(() => {
+    if (ready) intro.current?.play()
+  }, [ready])
 
   return (
     <section className="hero" id="inicio" ref={root}>

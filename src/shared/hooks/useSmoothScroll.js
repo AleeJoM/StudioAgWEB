@@ -4,6 +4,8 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
+// Evita refreshes (y saltos) por la barra de URL móvil al scrollear.
+ScrollTrigger.config({ ignoreMobileResize: true })
 
 let lenisInstance = null
 

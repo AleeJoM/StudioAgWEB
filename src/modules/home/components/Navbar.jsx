@@ -5,8 +5,8 @@ import { scrollToTarget, setScrollLocked } from '../../../shared/hooks/useSmooth
 
 const NAV = [
   { href: '#servicios', label: 'Servicios' },
-  { href: '#proceso', label: 'Proceso' },
-  { href: '#destacado', label: 'Lo más visto' },
+  { href: '#destacado', label: 'Resultados' },
+  { href: '#resenas', label: 'Reseñas' },
   { href: '#trabajos', label: 'Trabajos' },
 ]
 

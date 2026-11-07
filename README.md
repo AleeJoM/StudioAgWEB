@@ -22,13 +22,14 @@ src/
   app/App.jsx                      # raíz de la app
   modules/home/
     pages/HomePage.jsx             # orden de las secciones
-    components/                    # Hero, Manifesto, ServicesFolder, Process, TopPosts, Portfolio, ...
+    components/                    # Hero, ServicesFolder, TopPosts, Reviews, Portfolio, FinalCta
     data/content.js                # textos, servicios, posts destacados e imágenes
     styles/home.css
   shared/
     components/Logo.jsx            # wordmark "studioag mkt."
     constants/brand.js             # handle y links de Instagram
     hooks/useSmoothScroll.js       # Lenis + GSAP
+    hooks/useReveal.js             # reveal on scroll con IntersectionObserver
     styles/tokens.css              # paleta y tipografías de la marca
 ```
 
